@@ -12,7 +12,7 @@ def generate_xml_files():
     xml_count = 0    
     local_xml_directory = '/tmp/transactions'
     hdfs_xml_directory = '/in/transactions'
-    generate_xml_interval = 10 #seconds
+    generate_xml_interval = 1 #seconds
 
     if os.path.exists(local_xml_directory):
         shutil.rmtree(local_xml_directory) 
