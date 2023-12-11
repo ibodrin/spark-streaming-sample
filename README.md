@@ -15,4 +15,4 @@ This repository stores a working example of Spark Structured Streaming applicati
 3. Use Jupyter extension in VSCode to execute `notebooks/test.ipynb` and browse ingested transaction details in `Raw` and `Processed` layers
 
 ## Notes
-* When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one instance of the job is allowed
+* When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
