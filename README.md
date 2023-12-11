@@ -18,6 +18,7 @@ This repository stores a working example of Spark Structured Streaming applicati
 
 ## Notes
 * When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
+* `spark-submit` can be found in scripts/shell
 
 ## Referenced Documentation
 1. https://spark.apache.org/docs/latest/
