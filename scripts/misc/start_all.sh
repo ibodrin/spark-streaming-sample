@@ -14,6 +14,8 @@ $hdp_path/bin/hdfs namenode -format -force
 $hdp_path/bin/hdfs --daemon start namenode
 $hdp_path/bin/hdfs --daemon start datanode
 
+$hdp_path/bin/hdfs dfs -mkdir /raw
+
 echo "Starting kafka zookeper"
 nohup $kafka_path/bin/zookeeper-server-start.sh $kafka_path/config/zookeeper.properties 2>&1 >/tmp/kafka-zookeper.log &
 seconds=30 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
@@ -31,8 +33,10 @@ echo "Starting write_to_raw"
 nohup $repo_path/scripts/shell/start_write_to_raw.sh 2>&1 >/tmp/start_write_to_raw.log &
 echo "Starting generate_xml"
 nohup $repo_path/scripts/misc/start_generate_xml.sh 2>&1 >/tmp/start_generate_xml.log &
+echo "Starting merge_to_processed (1st run)"
+nohup $repo_path/scripts/shell/start_merge_to_processed.sh 2>&1 >/tmp/start_merge_to_processed.log &
 seconds=60 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
-echo "Starting merge_to_processed"
+echo "Starting merge_to_processed (2nd run)"
 nohup $repo_path/scripts/shell/start_merge_to_processed.sh 2>&1 >/tmp/start_merge_to_processed.log &
 
 echo "Startup completed"
