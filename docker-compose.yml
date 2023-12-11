@@ -1,0 +1,25 @@
+version: '3'
+services:
+  spark-master:
+    image: sparkv3
+    hostname: spark-test1
+    ports:
+      - "22203:22203"
+    volumes:
+      - spark-data:/data
+    networks:
+      - sparknet
+    command: >
+      bash -c "service ssh start &&
+      /opt/spark/spark-3.5.0-bin-hadoop3/sbin/start-master.sh &&
+      /opt/spark/spark-3.5.0-bin-hadoop3/sbin/start-worker.sh spark://spark-test1:7077 &&
+      chown spark:spark /data &&
+      su spark -c '/home/spark/spark-streaming-sample/scripts/misc/start_all.sh' &&
+      tail -f /dev/null"
+
+networks:
+  sparknet:
+    driver: bridge
+
+volumes:
+  spark-data:
