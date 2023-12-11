@@ -11,7 +11,7 @@ This repository stores a working example of Spark Structured Streaming applicati
 
 ## Instructions
 1. Start container using `docker-compose.yml` _(TODO push image to Docker Hub)_
-2. Connect using Remote-SSH in VSCode as `spark@spark-test1`
+2. Connect using Remote-SSH in VSCode as `spark@spark-test1:22203`
 3. Use Jupyter extension in VSCode to execute `notebooks/test.ipynb` and browse ingested transaction details in `Raw` and `Processed` layers
 
 ## Notes
