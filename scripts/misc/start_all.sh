@@ -9,12 +9,10 @@ repo_path=$(git rev-parse --show-toplevel)
 
 rm $kafka_path/logs/*
 
-echo "Starting yarn"
-nohup $hdp_path/sbin/start-yarn.sh 2>&1 >/tmp/hadoop-yarn.log &
-seconds=60 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
-
-echo "Starting dfs"
-nohup $hdp_path/sbin/start-dfs.sh 2>&1 >/tmp/hadoop-dfs.log &
+echo "Starting hdfs"
+$hdp_path/bin/hdfs namenode -format -force
+$hdp_path/bin/hdfs --daemon start namenode
+$hdp_path/bin/hdfs --daemon start datanode
 
 echo "Starting kafka zookeper"
 nohup $kafka_path/bin/zookeeper-server-start.sh $kafka_path/config/zookeeper.properties 2>&1 >/tmp/kafka-zookeper.log &
