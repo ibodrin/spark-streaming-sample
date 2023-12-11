@@ -7,7 +7,7 @@ if [ -f /tmp/${job_name}.pid ] ; then
 fi
 if ! [ -z "$pid" ] ; then
     kill -9 $pid
-    echo "Killed job ${generate_xml} with pid ${pid}"
+    echo "Killed job ${job_name} with pid ${pid}"
 else 
     echo "Job ${job_name} is not running"
 fi
