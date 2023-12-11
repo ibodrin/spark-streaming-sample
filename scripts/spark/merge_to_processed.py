@@ -166,7 +166,7 @@ while True:
     if retry_num == retries - 1:
         break
     try:
-        stream(spark)
+        stream(spark).awaitTermination()
         succeeded = True
         logger.info("Batch processing completed")
         break
