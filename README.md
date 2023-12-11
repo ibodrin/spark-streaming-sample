@@ -10,7 +10,7 @@ This repository stores a working example of Spark Structured Streaming applicati
 4. Scheduled streaming job `scripts/spark/merge_to_processed.py` with `trigger=availableNow` is reading increments from the Parquet table in `Raw` layer and performs necessary data enrichment followed by the upsert into Delta table in `Processed` layer based on regular intervals (hourly or on-demand)
 
 ## Instructions
-1. Start demo container using `docker-compose.yml` _(TODO push image to Docker Hub)_
+1. Start demo container using `docker-compose.yml`
 2. Upon the container startup, all services and spark jobs will start automatically
 3. Connect using Remote-SSH in VSCode as `spark@spark-test1` on port `22203`
 4. Optionally start SSH tunnel on ports `8080` and `4040` to browse the Spark UI
