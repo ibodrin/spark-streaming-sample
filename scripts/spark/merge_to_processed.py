@@ -25,6 +25,7 @@ processed = os.path.join(hdfs_path, 'processed', 'transactions')
 checkpoint = os.path.join(hdfs_path, 'checkpoint', 'processed', 'transactions')
 dlq = os.path.join(hdfs_path, 'dlq', 'processed', 'transactions')
 
+# Mapping XML parsing functions as per https://github.com/databricks/spark-xml?tab=readme-ov-file#pyspark-notes
 def ext_from_xml(xml_column, schema, options={}):
     java_column = _to_java_column(xml_column.cast('string'))
     java_schema = spark._jsparkSession.parseDataType(schema.json())
@@ -32,10 +33,8 @@ def ext_from_xml(xml_column, schema, options={}):
     jc = spark._jvm.com.databricks.spark.xml.functions.from_xml(
         java_column, java_schema, scala_map)
     return Column(jc)
-
 def ext_schema_of_xml_df(df, options={}):
     assert len(df.columns) == 1
-
     scala_options = spark._jvm.PythonUtils.toScalaMap(options)
     java_xml_module = getattr(getattr(
         spark._jvm.com.databricks.spark.xml, "package$"), "MODULE$")
