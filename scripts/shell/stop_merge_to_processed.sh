@@ -1,4 +1,13 @@
 #!/bin/bash
 
 job_name=merge_to_processed
-spark-submit --kill merge_to_processed --master spark://spark-test1:7077
+
+if [ -f /tmp/${job_name}.pid ] ; then
+    pid=$(cat /tmp/${job_name}.pid)
+fi
+if ! [ -z "$pid" ] ; then
+    kill -9 $pid
+    echo "Killed job ${generate_xml} with pid ${pid}"
+else 
+    echo "Job ${job_name} is not running"
+fi

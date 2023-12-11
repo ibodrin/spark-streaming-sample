@@ -11,7 +11,9 @@ if [ -f /tmp/${job_name}.pid ] ; then
   fi
 fi
 
-cd $(dirname "$0")
+script_path=$(dirname $0)
+cd $script_path
+repo_path=$(git rev-parse --show-toplevel)
 
 nohup spark-submit \
     --name "MergeToProcessed" \
@@ -21,7 +23,7 @@ nohup spark-submit \
     --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
     --conf "spark.cores.max=1" \
     --executor-memory 512m \
-    ../spark/${job_name}.py 2>&1 > /tmp/${job_name}.log &
+    $repo_path/scripts/spark/${job_name}.py 2>&1 > /tmp/${job_name}.log &
 
 # spark-submit \
 #   --name "MergeToProcessed" \

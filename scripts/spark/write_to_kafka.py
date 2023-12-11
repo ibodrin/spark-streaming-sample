@@ -1,4 +1,3 @@
-# %%
 import random, time, threading, os, glob
 from random import randint
 import xml.etree.ElementTree as ET
@@ -8,7 +7,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import expr
 from pyspark.sql.types import *
 from pyspark.sql.streaming import StreamingQueryException
-import traceback
+import traceback, logging
 
 host = 'spark-test1'
 checkpoint = 'hdfs://spark-test1:9000/checkpoint/raw/transactions'
@@ -24,12 +23,14 @@ spark = SparkSession \
     .master(f"spark://{host}:7077") \
     .config("spark.jars.packages", f"{kafka_package}") \
     .config("spark.sql.streaming.checkpointLocation", checkpoint) \
-    .config("spark.cores.max", "2") \
+    .config("spark.cores.max", "1") \
+    .config("spark.executor.memory", "512m") \
     .getOrCreate()
 
 # Kafka Configuration
 kafka_server = f"{host}:9092"
 topic_name = "test-topic"
+logger = logging.getLogger(__name__)
 
 def stream(spark):
     schema = StructType([

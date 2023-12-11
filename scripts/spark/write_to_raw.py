@@ -1,6 +1,11 @@
-# %%
 from pyspark.sql import SparkSession
-import os
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
+import os, traceback, time
+from pyspark.sql.streaming import StreamingQueryException
+from pyspark.sql.column import Column, _to_java_column
+from pyspark.sql.types import _parse_datatype_json_string
+import logging
 
 # Set the location of the Delta Lake and Kafka packages
 delta_package = "io.delta:delta-spark_2.12:3.0.0"  # Replace with the correct Delta version
@@ -21,14 +26,9 @@ spark = SparkSession.builder \
     .config("spark.jars.packages", f"{delta_package},{kafka_package},{xml_package}") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
-    .config("spark.cores.max", "2") \
+    .config("spark.cores.max", "1") \
+    .config("spark.executor.memory", "512m") \
     .getOrCreate()
-
-
-# %%
-from pyspark.sql.column import Column, _to_java_column
-from pyspark.sql.types import _parse_datatype_json_string
-import time
 
 def ext_from_xml(xml_column, schema, options={}):
     java_column = _to_java_column(xml_column.cast('string'))
@@ -47,17 +47,12 @@ def ext_schema_of_xml_df(df, options={}):
     java_schema = java_xml_module.schema_of_xml_df(df._jdf, scala_options)
     return _parse_datatype_json_string(java_schema.json())
 
-# %%
-from pyspark.sql.types import *
-from pyspark.sql.functions import *
-import os, traceback
-from pyspark.sql.streaming import StreamingQueryException
-
 # Function to process each batch
 def process_batch(batch_df, batch_id):
     if not batch_df.rdd.isEmpty():
         #batch_df.show()  # or any other processing you want to do
         try:
+            files_count = batch_df.count()
             batch_df.select(
                 '*',
                 current_date().alias("_raw_insert_date"),
@@ -67,6 +62,7 @@ def process_batch(batch_df, batch_id):
             .mode("append") \
             .partitionBy("_raw_insert_date", "_raw_insert_hour") \
             .parquet(raw)
+
         except Exception as e:
             error_text = traceback.format_exc()
             print(f"Exception occurred during batch processing:\n{error_text}")
@@ -118,7 +114,4 @@ while True:
     except Exception as e:
         print(f"Non-streaming exception:\n{traceback.format_exc()}")
         print(f"Restarting query after 10 seconds...")        
-        time.sleep(10)    
-
-
-
+        time.sleep(10)

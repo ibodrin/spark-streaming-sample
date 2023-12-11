@@ -1,6 +1,6 @@
 #!/bin/bash
 
-job_name=write_to_raw
+job_name=generate_xml
 
 if [ -f /tmp/${job_name}.pid ] ; then
     pid=$(cat /tmp/${job_name}.pid)

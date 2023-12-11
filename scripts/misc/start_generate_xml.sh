@@ -1,6 +1,6 @@
 #!/bin/bash
 
-job_name=write_to_kafka
+job_name=generate_xml
 
 if [ -f /tmp/${job_name}.pid ] ; then
   pid=$(cat /tmp/${job_name}.pid)
@@ -15,16 +15,7 @@ script_path=$(dirname $0)
 cd $script_path
 repo_path=$(git rev-parse --show-toplevel)
 
-nohup spark-submit \
-  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
-  --master spark://spark-test1:7077 \
-  --executor-memory 512m \
-  $repo_path/scripts/spark/${job_name}.py 2>&1 > /tmp/${job_name}.log &
-
-# spark-submit \
-#   --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
-#   --master spark://spark-test1:7077 \
-#   ../spark/${job_name}.py 2>&1 > /tmp/${job_name}.log
+nohup python3 $repo_path/scripts/misc/generate_xml.py 2>&1 >/tmp/${job_name}.log &
 
 pid=$!
 echo $pid > /tmp/${job_name}.pid

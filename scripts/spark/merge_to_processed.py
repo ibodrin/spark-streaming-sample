@@ -1,7 +1,13 @@
-# %%
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
-import os
+from pyspark.sql.column import Column, _to_java_column
+from pyspark.sql.types import _parse_datatype_json_string
+from delta.tables import DeltaTable
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+from pyspark.sql.window import Window
+from pyspark.sql.streaming import StreamingQueryException
+import traceback, time, os, logging
 
 delta_package = "io.delta:delta-spark_2.12:3.0.0"  # Replace with the correct Delta version
 xml_package = "com.databricks:spark-xml_2.12:0.14.0"
@@ -10,7 +16,7 @@ spark = SparkSession.builder.appName("merge_to_processed").master('spark://spark
     .config("spark.jars.packages", f"{delta_package},{xml_package}") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
-    .config("spark.cores.max", "2") \
+    .config("spark.cores.max", "1") \
     .config("spark.executor.memory", "512m") \
     .getOrCreate()
 
@@ -19,12 +25,6 @@ raw = os.path.join(hdfs_path, 'raw', 'transactions')
 processed = os.path.join(hdfs_path, 'processed', 'transactions')
 checkpoint = os.path.join(hdfs_path, 'checkpoint', 'processed', 'transactions')
 dlq = os.path.join(hdfs_path, 'dlq', 'processed', 'transactions')
-
-
-# %%
-from pyspark.sql.column import Column, _to_java_column
-from pyspark.sql.types import _parse_datatype_json_string
-from delta.tables import DeltaTable
 
 def ext_from_xml(xml_column, schema, options={}):
     java_column = _to_java_column(xml_column.cast('string'))
@@ -42,13 +42,6 @@ def ext_schema_of_xml_df(df, options={}):
         spark._jvm.com.databricks.spark.xml, "package$"), "MODULE$")
     java_schema = java_xml_module.schema_of_xml_df(df._jdf, scala_options)
     return _parse_datatype_json_string(java_schema.json())
-
-# %%
-from pyspark.sql.functions import *
-from pyspark.sql.types import *
-from pyspark.sql.window import Window
-from pyspark.sql.streaming import StreamingQueryException
-import traceback, time
 
 # Function to process each batch
 def process_batch(batch_df, batch_id):
@@ -167,6 +160,9 @@ def stream(spark):
     #     .format("console") \
     #     .start()
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 retries = 3
 retry_num = 0
 succeeded = None
@@ -176,6 +172,7 @@ while True:
     try:
         stream(spark)
         succeeded = True
+        logger.info("Batch processing completed")
         break
     except StreamingQueryException as e:
         retry_num += 1
@@ -190,6 +187,5 @@ while True:
         time.sleep(10)
 
 if not succeeded:
+    logger.error("Batch processing failed")
     pass # TBD send alert that job did not succeed after retries
-
-
