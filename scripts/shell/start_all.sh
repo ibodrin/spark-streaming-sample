@@ -15,11 +15,11 @@ echo "Starting dfs"
 nohup $hdp_path/sbin/start-dfs.sh 2>&1 >/tmp/hadoop-dfs.log &
 
 echo "Starting kafka zookeper"
-$kafka_path/bin/zookeeper-server-start.sh -daemon $kafka_path/config/zookeeper.properties
+nohup $kafka_path/bin/zookeeper-server-start.sh $kafka_path/config/zookeeper.properties 2>&1 >/tmp/kafka-zookeper.log &
 seconds=10 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 
 echo "Starting kafka server"
-$kafka_path/bin/kafka-server-start.sh -daemon $kafka_path/config/server.properties
+nohup $kafka_path/bin/kafka-server-start.sh $kafka_path/config/server.properties 2>&1 >/tmp/kafka-server.log &
 seconds=30 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 
 echo "Cleaning up"
