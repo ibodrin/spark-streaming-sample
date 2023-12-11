@@ -16,7 +16,7 @@ $hdp_path/bin/hdfs --daemon start datanode
 
 echo "Starting kafka zookeper"
 nohup $kafka_path/bin/zookeeper-server-start.sh $kafka_path/config/zookeeper.properties 2>&1 >/tmp/kafka-zookeper.log &
-seconds=10 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
+seconds=30 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 
 echo "Starting kafka server"
 nohup $kafka_path/bin/kafka-server-start.sh $kafka_path/config/server.properties 2>&1 >/tmp/kafka-server.log &
