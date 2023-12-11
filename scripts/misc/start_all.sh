@@ -30,6 +30,9 @@ nohup $repo_path/scripts/shell/start_write_to_kafka.sh 2>&1 >/tmp/start_write_to
 echo "Starting write_to_raw"
 nohup $repo_path/scripts/shell/start_write_to_raw.sh 2>&1 >/tmp/start_write_to_raw.log &
 echo "Starting generate_xml"
-nohup $repo_path/scripts/misc/start_generate_xml.sh 2>&1 >/tmp/start_write_to_raw.log &
+nohup $repo_path/scripts/misc/start_generate_xml.sh 2>&1 >/tmp/start_generate_xml.log &
 seconds=60 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
+echo "Starting merge_to_processed"
 nohup $repo_path/scripts/shell/start_merge_to_processed.sh 2>&1 >/tmp/start_merge_to_processed.log &
+
+echo "Startup completed"
