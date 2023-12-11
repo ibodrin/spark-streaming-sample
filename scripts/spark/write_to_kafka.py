@@ -13,10 +13,8 @@ host = 'spark-test1'
 checkpoint = 'hdfs://spark-test1:9000/checkpoint/raw/transactions'
 xml_directory = 'hdfs://spark-test1:9000/in/transactions'
 
-# Set the location of the Delta Lake and Kafka packages
-kafka_package = "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"  # Replace with the correct Spark version
+kafka_package = "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
 
-# Initialize Spark Session for Kafka
 spark = SparkSession \
     .builder \
     .appName("write_to_kafka") \
@@ -27,7 +25,6 @@ spark = SparkSession \
     .config("spark.executor.memory", "512m") \
     .getOrCreate()
 
-# Kafka Configuration
 kafka_server = f"{host}:9092"
 topic_name = "test-topic"
 logger = logging.getLogger(__name__)
@@ -64,10 +61,9 @@ while True:
     try:
         stream(spark).awaitTermination()
     except StreamingQueryException as e:
-        # Log the error message
         print(f"Streaming exception:\n{traceback.format_exc()}")
         print("Restarting query after 10 seconds...")
-        time.sleep(10)  # Sleep for 10 seconds before restarting the query
+        time.sleep(10)
     except Exception as e:
         print(f"Non-streaming exception:\n{traceback.format_exc()}")
         print(f"Restarting query after 10 seconds...")        

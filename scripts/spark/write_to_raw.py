@@ -7,9 +7,8 @@ from pyspark.sql.column import Column, _to_java_column
 from pyspark.sql.types import _parse_datatype_json_string
 import logging
 
-# Set the location of the Delta Lake and Kafka packages
-delta_package = "io.delta:delta-spark_2.12:3.0.0"  # Replace with the correct Delta version
-kafka_package = "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"  # Replace with the correct Spark version
+delta_package = "io.delta:delta-spark_2.12:3.0.0" 
+kafka_package = "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
 xml_package = "com.databricks:spark-xml_2.12:0.14.0"
 
 kafka_server = "spark-test1:9092"
@@ -19,7 +18,6 @@ raw = os.path.join(hdfs_path, 'raw', 'transactions')
 checkpoint = os.path.join(hdfs_path, 'checkpoint', 'raw', 'transactions')
 dlq = os.path.join(hdfs_path, 'dlq', 'raw', 'transactions')
 
-# Initialize Spark Session with Delta Lake and Kafka support
 spark = SparkSession.builder \
     .appName("write_to_raw") \
     .master('spark://spark-test1:7077') \
@@ -47,10 +45,8 @@ def ext_schema_of_xml_df(df, options={}):
     java_schema = java_xml_module.schema_of_xml_df(df._jdf, scala_options)
     return _parse_datatype_json_string(java_schema.json())
 
-# Function to process each batch
 def process_batch(batch_df, batch_id):
     if not batch_df.rdd.isEmpty():
-        #batch_df.show()  # or any other processing you want to do
         try:
             files_count = batch_df.count()
             batch_df.select(
@@ -76,7 +72,6 @@ def process_batch(batch_df, batch_id):
         print("Empty batch")
 
 def stream(spark):
-    # Read from Kafka
     df = spark.readStream \
         .format("kafka") \
         .option("kafka.bootstrap.servers", kafka_server) \
@@ -107,10 +102,9 @@ while True:
     try:
         stream(spark).awaitTermination()
     except StreamingQueryException as e:
-        # Log the error message
         print(f"Streaming exception:\n{traceback.format_exc()}")
         print("Restarting query after 10 seconds...")
-        time.sleep(10)  # Sleep for 10 seconds before restarting the query
+        time.sleep(10)
     except Exception as e:
         print(f"Non-streaming exception:\n{traceback.format_exc()}")
         print(f"Restarting query after 10 seconds...")        

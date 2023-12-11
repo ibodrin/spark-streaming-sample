@@ -9,9 +9,8 @@ from pyspark.sql.window import Window
 from pyspark.sql.streaming import StreamingQueryException
 import traceback, time, os, logging
 
-delta_package = "io.delta:delta-spark_2.12:3.0.0"  # Replace with the correct Delta version
+delta_package = "io.delta:delta-spark_2.12:3.0.0"
 xml_package = "com.databricks:spark-xml_2.12:0.14.0"
-# Initialize Spark Session
 spark = SparkSession.builder.appName("merge_to_processed").master('spark://spark-test1:7077') \
     .config("spark.jars.packages", f"{delta_package},{xml_package}") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
@@ -43,7 +42,6 @@ def ext_schema_of_xml_df(df, options={}):
     java_schema = java_xml_module.schema_of_xml_df(df._jdf, scala_options)
     return _parse_datatype_json_string(java_schema.json())
 
-# Function to process each batch
 def process_batch(batch_df, batch_id):
     if not batch_df.rdd.isEmpty():
         files_count = batch_df.count()
@@ -109,6 +107,8 @@ def process_batch(batch_df, batch_id):
             .filter(col("row_rank") == 1) \
             .drop("row_rank")
 
+        #TBD add logic to write malformed documents to DLQ
+
         # Check for the existence of the Delta table
         if DeltaTable.isDeltaTable(spark, processed):
             # If the table exists, create a DeltaTable instance for it
@@ -128,7 +128,6 @@ def process_batch(batch_df, batch_id):
 
 
 def stream(spark):
-    # Define the schema of your raw layer
     raw_schema = StructType([
         StructField("key", StringType()),
         StructField("value", StringType()),
@@ -142,13 +141,11 @@ def stream(spark):
         StructField("_raw_insert_hour", IntegerType())
     ])
 
-    # Read the data from the raw layer using structured streaming
     df = spark.readStream.format("parquet")\
         .option("path", raw)\
         .schema(raw_schema) \
         .load()
     
-    # Write the transformed data to the processed layer
     return df.writeStream \
         .foreachBatch(process_batch) \
         .trigger(availableNow=True) \
