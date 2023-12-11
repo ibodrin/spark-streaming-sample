@@ -107,7 +107,7 @@ def process_batch(batch_df, batch_id):
             .filter(col("row_rank") == 1) \
             .drop("row_rank")
 
-        #TBD add logic to write malformed documents to DLQ
+        #TODO add logic to write malformed documents to DLQ
 
         # Check for the existence of the Delta table
         if DeltaTable.isDeltaTable(spark, processed):
@@ -185,4 +185,4 @@ while True:
 
 if not succeeded:
     logger.error("Batch processing failed")
-    pass # TBD send alert that job did not succeed after retries
+    pass # TODO send alert that job did not succeed after retries
