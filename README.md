@@ -16,3 +16,9 @@ This repository stores a working example of Spark Structured Streaming applicati
 
 ## Notes
 * When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
+
+## Referenced Documentation
+1. https://spark.apache.org/docs/latest/
+2. https://kafka.apache.org/documentation/
+3. https://hadoop.apache.org/docs/stable/
+4. https://github.com/databricks/spark-xml
