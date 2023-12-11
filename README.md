@@ -13,7 +13,7 @@ This repository stores a working example of Spark Structured Streaming applicati
 1. Start container using `docker-compose.yml` _(TODO push image to Docker Hub)_
 2. Upon the container startup, all services and spark jobs will start automatically
 3. Connect using Remote-SSH in VSCode as `spark@spark-test1:22203`
-4. Optionally start SSH tunnel for Spark UI on ports 8080 and 4040
+4. Optionally start SSH tunnel on ports 8080 and 4040 to browse Spark UI
 5. Use Jupyter extension in VSCode to execute `notebooks/test.ipynb` and browse ingested transaction details in `Raw` and `Processed` layers
 
 ## Notes
