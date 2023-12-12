@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+#set -x
 cd /opt
 
 wget https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
@@ -34,3 +34,5 @@ cat > hadoop-3.3.6/etc/hadoop/hdfs-site.xml <<EOF
 </configuration>
 EOF
 echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64' >> hadoop-3.3.6/etc/hadoop/hadoop-env.sh
+
+pip install pyspark ipykernel pandas

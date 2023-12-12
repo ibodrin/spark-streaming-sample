@@ -25,9 +25,10 @@ spark = SparkSession \
     .config("spark.executor.memory", "512m") \
     .getOrCreate()
 
+spark.sparkContext.setLogLevel('WARN')
+
 kafka_server = f"{host}:9092"
 topic_name = "test-topic"
-logger = logging.getLogger(__name__)
 
 def stream(spark):
     schema = StructType([

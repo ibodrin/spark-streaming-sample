@@ -18,6 +18,7 @@ spark = SparkSession.builder.appName("merge_to_processed").master('spark://spark
     .config("spark.cores.max", "1") \
     .config("spark.executor.memory", "512m") \
     .getOrCreate()
+spark.sparkContext.setLogLevel('WARN')
 
 hdfs_path = "hdfs://spark-test1:9000"
 raw = os.path.join(hdfs_path, 'raw', 'transactions')

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 job_name=merge_to_processed
+spark_path=/opt/spark-3.5.0-bin-hadoop3
 
 if [ -f /tmp/${job_name}.pid ] ; then
   pid=$(cat /tmp/${job_name}.pid)
@@ -15,7 +16,7 @@ script_path=$(dirname $0)
 cd $script_path
 repo_path=$(git rev-parse --show-toplevel)
 
-nohup spark-submit \
+nohup $spark_path/bin/spark-submit \
     --name "MergeToProcessed" \
     --master "spark://spark-test1:7077" \
     --packages "io.delta:delta-spark_2.12:3.0.0,com.databricks:spark-xml_2.12:0.14.0" \

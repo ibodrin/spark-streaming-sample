@@ -24,6 +24,7 @@ spark = SparkSession.builder \
     .config("spark.cores.max", "1") \
     .config("spark.executor.memory", "512m") \
     .getOrCreate()
+spark.sparkContext.setLogLevel('WARN')
 
 def process_batch(batch_df, batch_id):
     if not batch_df.rdd.isEmpty():
