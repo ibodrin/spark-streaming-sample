@@ -12,7 +12,7 @@ This repository provides sample Spark Structured Streaming application with the 
 ## Instructions
 1. Start demo container using `docker-compose.yml`
 2. Upon the container startup, all services and spark jobs will start automatically
-3. Open localhost:8888 in the browser and use the pre-defined `test.ipynb` notebook to browse the ingested transaction details in `Raw` and `Processed` layers
+3. Open `http://localhost:8888` in the browser and use the pre-defined `test.ipynb` notebook to browse the ingested transaction details in `Raw` and `Processed` layers with Jupyter
 
 ## Notes
 * When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
