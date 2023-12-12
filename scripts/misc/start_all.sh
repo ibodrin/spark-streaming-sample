@@ -60,4 +60,9 @@ seconds=60 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 echo "Starting merge_to_processed (2nd run)"
 nohup $repo_path/scripts/shell/start_merge_to_processed.sh 2>&1 >/tmp/start_merge_to_processed.log &
 
+echo "Starting Jupyter"
+jupyter notebook --generate-config
+echo -e "c.NotebookApp.token = ''\nc.NotebookApp.password = ''" >> /home/spark/.jupyter/jupyter_notebook_config.py
+nohup ~/.local/bin/jupyter-notebook 2>&1 >/tmp/jupyter-notebook.log &
+
 echo "Startup completed"
