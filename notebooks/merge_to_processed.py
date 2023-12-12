@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.column import Column, _to_java_column
@@ -225,3 +231,4 @@ while True:
 if not succeeded:
     logger.error("Batch processing failed")
     pass # TODO send alert that job did not succeed after retries
+
