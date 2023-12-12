@@ -1,21 +1,29 @@
 version: '3'
 services:
   spark-master:
-    image: sparkv3
+    image: spark-lab-v2
     hostname: spark-test1
     ports:
       - "22203:22203"
+      - "8080:8080"
+      - "4040:4040"
+      - "8888:8888"
     volumes:
       - spark-data:/data
     networks:
       - sparknet
     command: >
-      bash -c "service ssh start &&
-      /opt/spark/spark-3.5.0-bin-hadoop3/sbin/start-master.sh &&
-      /opt/spark/spark-3.5.0-bin-hadoop3/sbin/start-worker.sh spark://spark-test1:7077 &&
-      chown spark:spark /data &&
-      su spark -c '/home/spark/spark-streaming-sample/scripts/misc/start_all.sh' &&
-      tail -f /dev/null"
+      bash -c "
+        apt-get -y update && apt-get -y upgrade &&
+        apt-get install -y ssh vim tree mlocate pip python3 default-jdk rsyslog acl git &&
+        setfacl -m u:spark:rwx /opt &&
+        service ssh start &&
+        echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64 >> /etc/profile' &&
+        echo 'export PATH=$PATH:/opt/hadoop-3.3.6/bin'
+        bash -c 'nohup /usr/sbin/sshd -D -p 22203 2>&1 >/tmp/sshd.log &' &&
+        sleep 1
+        su - spark bash -c 'eval $(ssh-agent) && ssh-add ~/.ssh/git_write && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts && git clone git@github.com:ibodrin/spark-streaming-sample.git && ~/spark-streaming-sample/scripts/misc/install_dependencies.sh && ~/spark-streaming-sample/scripts/misc/start_all.sh' &&
+        tail -f /dev/null"
 
 networks:
   sparknet:
