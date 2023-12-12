@@ -11,8 +11,8 @@ This repository provides sample Spark Structured Streaming application with the 
 
 ## Instructions
 1. Save `docker-compose.yml` on your workstation
-2. Run `docker compose -f "docker-compose.yml" up -d --build`
-3. All services and spark jobs will start automatically on the container (allow 5 minutes to start)
+2. Run `docker compose -f "docker-compose.yml" up -d --build` to start the demo container
+3. All services and spark jobs will start up automatically (allow 5 minutes to start)
 4. Open `http://localhost:8888` in the browser and use the pre-defined `test.ipynb` notebook to browse the ingested transaction details in `Raw` and `Processed` layers with Jupyter
 
 ## Notes
