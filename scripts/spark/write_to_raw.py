@@ -4,9 +4,7 @@ from pyspark.sql.functions import *
 import os, traceback, time
 from pyspark.sql.streaming import StreamingQueryException
 
-delta_package = "io.delta:delta-spark_2.12:3.0.0" 
 kafka_package = "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
-xml_package = "com.databricks:spark-xml_2.12:0.14.0"
 
 kafka_server = "spark-test1:9092"
 topic_name = "test-topic"
@@ -18,7 +16,7 @@ dlq = os.path.join(hdfs_path, 'dlq', 'raw', 'transactions')
 spark = SparkSession.builder \
     .appName("write_to_raw") \
     .master('spark://spark-test1:7077') \
-    .config("spark.jars.packages", f"{delta_package},{kafka_package},{xml_package}") \
+    .config("spark.jars.packages", f"{kafka_package}") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .config("spark.cores.max", "1") \
