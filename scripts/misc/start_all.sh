@@ -16,8 +16,7 @@ $spark_path/sbin/start-worker.sh spark://spark-test1:7077 &&
 
 echo "Starting hdfs"
 $hdp_path/bin/hdfs namenode -format -force
-$hdp_path/bin/hdfs --daemon start namenode
-$hdp_path/bin/hdfs --daemon start datanode
+$hdp_path/sbin/start-dfs.sh
 echo "Creating directories in hdfs"
 $hdp_path/bin/hdfs dfs -mkdir -p \
     /checkpoint/raw/transactions \
