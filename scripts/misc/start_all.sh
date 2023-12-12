@@ -68,6 +68,6 @@ nohup $repo_path/scripts/shell/start_merge_to_processed.sh 2>&1 >/tmp/start_merg
 echo "Starting Jupyter"
 ~/.local/bin/jupyter notebook --generate-config
 echo -e "c.NotebookApp.token = ''\nc.NotebookApp.password = ''" >> /home/spark/.jupyter/jupyter_notebook_config.py
-nohup bash -c "cd $repo_path/notebooks && ~/.local/bin/jupyter-notebook" 2>&1 >/tmp/jupyter-notebook.log &
+nohup bash -c "cd $repo_path/notebooks && ~/.local/bin/jupyter-notebook --ip='0.0.0.0'" 2>&1 >/tmp/jupyter-notebook.log &
 
 echo "Startup completed"
