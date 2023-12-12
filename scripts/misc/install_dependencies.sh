@@ -35,5 +35,5 @@ cat > hadoop-3.3.6/etc/hadoop/hdfs-site.xml <<EOF
 EOF
 echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64' >> hadoop-3.3.6/etc/hadoop/hadoop-env.sh
 
-pip install pyspark ipykernel pandas notebook
+pip install pyspark ipykernel pandas notebook delta-spark
 
