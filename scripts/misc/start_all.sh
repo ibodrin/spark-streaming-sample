@@ -49,9 +49,11 @@ seconds=10 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 echo "Starting spark jobs"
 echo "Starting write_to_kafka"
 nohup $repo_path/scripts/shell/start_write_to_kafka.sh 2>&1 >/tmp/start_write_to_kafka.log &
+seconds=10 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 
 echo "Starting write_to_raw"
 nohup $repo_path/scripts/shell/start_write_to_raw.sh 2>&1 >/tmp/start_write_to_raw.log &
+seconds=10 ; echo "Sleeping ${seconds} seconds..." ; sleep ${seconds}
 
 echo "Starting generate_xml"
 nohup $repo_path/scripts/misc/start_generate_xml.sh 2>&1 >/tmp/start_generate_xml.log &
