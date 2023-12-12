@@ -15,6 +15,10 @@ echo "Starting spark-worker"
 $spark_path/sbin/start-worker.sh spark://spark-test1:7077 &&
 
 echo "Starting hdfs"
+if [ -d /data/hdfs ] ; then
+    rm -rf /data/hdfs
+fi
+mkdir /data/hdfs
 $hdp_path/bin/hdfs namenode -format -force
 $hdp_path/sbin/start-dfs.sh
 echo "Creating directories in hdfs"
