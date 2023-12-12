@@ -10,13 +10,15 @@ This repository provides sample Spark Structured Streaming application with the 
 4. Scheduled streaming job `scripts/spark/merge_to_processed.py` with `trigger=availableNow` is reading increments from the Parquet table in `Raw` layer and performs necessary data enrichment followed by the upsert into Delta table in `Processed` layer based on regular intervals (e.g. hourly or on-demand)
 
 ## Instructions
-1. Start demo container using `docker-compose.yml`
-2. All services and spark jobs will start automatically (allow 5 minutes to start)
-3. Open `http://localhost:8888` in the browser and use the pre-defined `test.ipynb` notebook to browse the ingested transaction details in `Raw` and `Processed` layers with Jupyter
+1. Save `docker-compose.yml` on your workstation
+2. Run `docker compose -f "docker-compose.yml" up -d --build` to start the demo container
+3. All services and spark jobs will start up automatically (allow 5 minutes to start)
+4. Open `http://localhost:8888` in the browser and use the pre-defined `test.ipynb` notebook to browse the ingested transaction details in `Raw` and `Processed` layers with Jupyter
 
 ## Notes
 * When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
 * `spark-submit` scripts can be found in `scripts/shell`
+* Spark UI is available at `http://localhost:8080` and `http://localhost:4040`
 
 ## Referenced Documentation
 1. https://spark.apache.org/docs/latest/

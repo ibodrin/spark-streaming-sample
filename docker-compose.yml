@@ -1,7 +1,7 @@
 version: '3'
 services:
   spark-master:
-    image: spark-lab-v2
+    image: ibodrin/spark-lab:streaming-v1
     hostname: spark-test1
     ports:
       - "22203:22203"
