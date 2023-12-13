@@ -17,7 +17,8 @@ script_path=$(dirname $0)
 cd $script_path
 repo_path=$(git rev-parse --show-toplevel)
 
-$local_bin/jupyter nbconvert --to script $repo_path/notebooks/main/${job_name}.ipynb --output-dir /tmp
+notebook_path=$repo_path/notebooks/main/${job_name}.ipynb
+$local_bin/jupyter nbconvert --to script $notebook_path --output-dir /tmp
 status=$?
 if [ $status != 0 ] ; then
   echo "Error occurred while converting notebook $repo_path/notebooks/${job_name}.ipynb to script, exiting"
