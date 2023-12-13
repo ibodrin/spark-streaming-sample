@@ -16,8 +16,8 @@ This repository provides sample Spark Structured Streaming application with the 
 4. Open `http://localhost:8888` in the browser and use the pre-defined `test/test.ipynb` notebook to view the ingested transaction details in `Raw` and `Processed` layers with Jupyter
 
 ## Data Format
-* Input - see comment in `scripts/misc/generate_xml.py`
-* Output - see sample output in `notebooks/test/test.ipynb`
+* Input - see comment with sample XML in `scripts/misc/generate_xml.py`
+* Output - see `processed` layer sample data in `notebooks/test/test.ipynb`
 
 ## Notes
 * When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
