@@ -15,6 +15,10 @@ This repository provides sample Spark Structured Streaming application with the 
 3. All services and spark jobs will start up automatically (allow 5 minutes to start)
 4. Open `http://localhost:8888` in the browser and use the pre-defined `test/test.ipynb` notebook to view the ingested transaction details in `Raw` and `Processed` layers with Jupyter
 
+## Data Format
+* Input format - see comment in `scripts/misc/generate_xml.py`
+* Output format - see sample output in `notebooks/test/test.ipynb`
+
 ## Notes
 * When scheduling `scripts/spark/merge_to_processed.py`, ensure that only one running instance of the job is allowed
 * `spark-submit` scripts can be found in `scripts/shell`
