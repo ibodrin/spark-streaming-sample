@@ -20,7 +20,7 @@ services:
         echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64 >> /etc/profile' &&
         echo 'export PATH=$PATH:/opt/hadoop-3.3.6/bin'
         sleep 1
-        su - spark bash -c 'eval $(ssh-agent) && ssh-add ~/.ssh/git_write && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts && git clone git@github.com:ibodrin/spark-streaming-sample.git && ~/spark-streaming-sample/scripts/misc/install_dependencies.sh && ~/spark-streaming-sample/scripts/misc/start_all.sh' &&
+        su - spark bash -c 'eval $(ssh-agent) && ssh-add ~/.ssh/git_read && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts && git clone git@github.com:ibodrin/spark-streaming-sample.git && ~/spark-streaming-sample/scripts/misc/install_dependencies.sh && ~/spark-streaming-sample/scripts/misc/start_all.sh' &&
         tail -f /dev/null"
 
 networks:
