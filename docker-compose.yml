@@ -14,9 +14,8 @@ services:
     command: >
       bash -c "
         apt-get -y update && apt-get -y upgrade &&
-        apt-get install -y vim tree mlocate pip python3 default-jdk rsyslog acl git &&
+        apt-get install -y vim tree mlocate pip python3 default-jdk rsyslog acl git ssh &&
         setfacl -m u:spark:rwx /opt &&
-        service start &&
         echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64 >> /etc/profile' &&
         echo 'export PATH=$PATH:/opt/hadoop-3.3.6/bin'
         sleep 1
