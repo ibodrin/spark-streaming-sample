@@ -20,8 +20,8 @@ This repository provides sample Spark Structured Streaming application with the 
 * Output - see `Processed` layer sample in [`notebooks/test/test.ipynb`](notebooks/test/test.ipynb)
 
 ## Notes
-* [`scripts/shell/start_merge_to_processed.sh`](scripts/shell/start_merge_to_processed.sh) automatically exists if the previous scheduled `merge_to_processed` job instance is still running (this is possible if the number of available batches as of the job startup time is very large and can't be processed within the required scheduling interval)
 * `spark-submit` scripts can be found in [`scripts/shell`](scripts/shell)
+* [`scripts/shell/start_merge_to_processed.sh`](scripts/shell/start_merge_to_processed.sh) automatically exists if the previous scheduled `merge_to_processed` job instance is still running (this is possible if the number of available batches as of the job startup time is very large and can't be processed within the required scheduling interval)
 * Spark UI is available at `http://localhost:8080` and `http://localhost:4040`
 * Distribution versions used (under `/opt`):
   * `spark-3.5.0`
