@@ -1,3 +1,34 @@
+"""
+This script generates XML document with 3-5 transactions every second and saves it to HDFS /in/transactions directory.
+Document structure:
+<Data>
+   <Transaction>
+      <TransactionId>14</TransactionId>
+      <Amount>350.54</Amount>
+      <CustomerId>34</CustomerId>
+      <DateTime>2023-12-13T04:08:41</DateTime>
+      <Location>London</Location>
+      <Result>Failure</Result>
+   </Transaction>
+   <Transaction>
+      <TransactionId>83</TransactionId>
+      <Amount>81.99</Amount>
+      <CustomerId>89</CustomerId>
+      <DateTime>2023-12-13T04:08:41</DateTime>
+      <Location>Tokyo</Location>
+      <Result>Failure</Result>
+   </Transaction>
+   <Transaction>
+      <TransactionId>14</TransactionId>
+      <Amount>702.61</Amount>
+      <CustomerId>53</CustomerId>
+      <DateTime>2023-12-13T04:08:41</DateTime>
+      <Location>Sydney</Location>
+      <Result>Success</Result>
+   </Transaction>
+</Data>
+"""
+
 import random, time, threading, os, glob
 from random import randint
 import xml.etree.ElementTree as ET
