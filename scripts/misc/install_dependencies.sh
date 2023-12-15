@@ -5,10 +5,7 @@ cd /opt
 wget https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
 tar xf spark-3.5.0-bin-hadoop3.tgz
 rm spark-3.5.0-bin-hadoop3.tgz
-cp spark-3.5.0-bin-hadoop3/conf/spark-defaults.conf.template spark-3.5.0-bin-hadoop3/conf/spark-defaults.conf
-echo -e 'spark.driver.bindAddress 0.0.0.0\nspark.driver.host localhost' >> spark-3.5.0-bin-hadoop3/conf/spark-defaults.conf
-cp spark-3.5.0-bin-hadoop3/conf/spark-env.sh.template spark-3.5.0-bin-hadoop3/conf/spark-env.sh
-echo -e "export SPARK_MASTER_HOST='localhost'\nexport SPARK_LOCAL_IP='127.0.0.1'\nexport SPARK_PUBLIC_DNS='localhost'" >> spark-3.5.0-bin-hadoop3/conf/spark-env.sh
+
 wget https://downloads.apache.org/kafka/3.6.1/kafka_2.13-3.6.1.tgz
 tar xf kafka_2.13-3.6.1.tgz
 rm kafka_2.13-3.6.1.tgz
